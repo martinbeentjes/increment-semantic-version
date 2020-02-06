@@ -11,14 +11,14 @@ set -euxo pipefail
 
 main() {
 
-  prev_version="$1"; release_type="$2"; use_commit="$3"
+  prev_version="$1"; release_type="$2"; commit_choice="$3"
   
-  if [[ ! -z "$use_commit" ]]; then
-    use_commit="no"
+  if [[ ! -z "$commit_choice" ]]; then
+    commit_choice="no"
   else 
-    use_commit="$(echo $3 | tr '[A-Z]' '[a-z]')"
-    if [[ "$use_commit" != "yes" ]]; then
-      use_commit="no"
+    commit_choice="$(echo $3 | tr '[A-Z]' '[a-z]')"
+    if [[ "$commit_choice" != "yes" ]]; then
+      commit_choice="no"
     fi
   fi
 
@@ -56,7 +56,7 @@ main() {
   "bug")
     ((++patch)); pre="";;
   "alpha")
-    if [[ "$use_commit" == "yes" ]]; then
+    if [[ "$commit_choice" == "yes" ]]; then
       preversion="${GITHUB_SHA::8}"
     else
       if [[ ! -z "$preversion" ]]; then
@@ -69,7 +69,7 @@ main() {
     fi
     pre="-alpha$preversion";;
   "beta")
-    if [[ "$use_commit" == "yes" ]]; then
+    if [[ "$commit_choice" == "yes" ]]; then
       preversion="${GITHUB_SHA::8}"
     else
       if [[ ! -z "$preversion" ]]; then
@@ -82,7 +82,7 @@ main() {
     fi
     pre="-beta$preversion";;
   "rc")
-    if [[ "$use_commit" == "yes" ]]; then
+    if [[ "$commit_choice" == "yes" ]]; then
       preversion="${GITHUB_SHA::8}"
     else
       if [[ ! -z "$preversion" ]]; then
