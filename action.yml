@@ -11,6 +11,10 @@ inputs:
   version-fragment:
     description: 'The versions fragment you want to increment. possible options are [ major | feature | bug | alpha | beta | rc ]'
     required: true
+  use-commit:
+    description: 'Set to yes if you want to use commit sha as preversion"
+    required: false
+    default: 'yes'
 outputs:
   next-version:
     description: 'The incremented version'
@@ -20,3 +24,4 @@ runs:
   args:
     - ${{ inputs.current-version }}
     - ${{ inputs.version-fragment }}
+    - ${{ inputs.use-commit }}
