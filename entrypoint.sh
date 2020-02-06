@@ -11,7 +11,20 @@ set -euo pipefail
 
 main() {
 
-  prev_version="$1"; release_type="$2"
+  prev_version="$1"
+  
+  release_type="$2" 
+  
+  use_commit="no"
+  
+  if [[ ! -z "$3" ]]; then
+    use_commit="no"
+  else 
+    use_commit="$(echo $3 | tr '[A-Z]' '[a-z]')"
+    if [[ $use_commit != "yes" ]]; then
+      use_commit="no"
+    fi
+  fi
 
   if [[ "$prev_version" == "" ]]; then
     echo "could not read previous version"; exit 1
@@ -47,30 +60,42 @@ main() {
   "bug")
     ((++patch)); pre="";;
   "alpha")
-    if [[ ! -z "$preversion" ]]; then
-      preversion=0
-    fi
-    ((++preversion))
-    if [[ "$pre" != "-alpha" ]]; then
-      preversion=1
+    if [[ "$use_commit" == "yes" ]]; then
+      preversion="${GITHUB_SHA::8}"
+    else
+      if [[ ! -z "$preversion" ]]; then
+        preversion=0
+      fi
+      ((++preversion))
+      if [[ "$pre" != "-alpha" ]]; then
+        preversion=1
+      fi
     fi
     pre="-alpha$preversion";;
   "beta")
-    if [[ ! -z "$preversion" ]]; then
-      preversion=0
-    fi
-    ((++preversion))
-    if [[ "$pre" != "-beta" ]]; then
-      preversion=1
+    if [[ "$use_commit" == "yes" ]]; then
+      preversion="${GITHUB_SHA::8}"
+    else
+      if [[ ! -z "$preversion" ]]; then
+        preversion=0
+      fi
+      ((++preversion))
+      if [[ "$pre" != "-beta" ]]; then
+        preversion=1
+      fi
     fi
     pre="-beta$preversion";;
   "rc")
-    if [[ ! -z "$preversion" ]]; then
-      preversion=0
-    fi
-    ((++preversion))
-    if [[ "$pre" != "-rc" ]]; then
-      preversion=1
+    if [[ "$use_commit" == "yes" ]]; then
+      preversion="${GITHUB_SHA::8}"
+    else
+      if [[ ! -z "$preversion" ]]; then
+        preversion=0
+      fi
+      ((++preversion))
+      if [[ "$pre" != "-rc" ]]; then
+        preversion=1
+      fi
     fi
     pre="-rc$preversion";;
   esac
