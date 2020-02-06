@@ -15,9 +15,9 @@ main() {
   
   release_type="$2" 
   
-  use_commit="no"
+  use_commit="$3"
   
-  if [[ ! -z "$3" ]]; then
+  if [[ ! -z "$use_commit" ]]; then
     use_commit="no"
   else 
     use_commit="$(echo $3 | tr '[A-Z]' '[a-z]')"
