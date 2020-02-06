@@ -7,7 +7,7 @@
 #   - sets the exit code of a pipeline to that of the rightmost command
 #     to exit with a non-zero status, or to zero if all commands of the
 #     pipeline exit successfully (-o pipefail)
-set -euo pipefail
+set -euxo pipefail
 
 main() {
 
