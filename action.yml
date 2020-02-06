@@ -13,7 +13,7 @@ inputs:
     required: true
   use-commit:
     description: 'Set to yes if you want to use commit sha as preversion'
-    required: false
+    required: true
 outputs:
   next-version:
     description: 'The incremented version'
