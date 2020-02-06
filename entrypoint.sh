@@ -11,11 +11,7 @@ set -euo pipefail
 
 main() {
 
-  prev_version="$1"
-  
-  release_type="$2" 
-  
-  use_commit="$3"
+  prev_version="$1"; release_type="$2"; use_commit="$3"
   
   if [[ ! -z "$use_commit" ]]; then
     use_commit="no"
