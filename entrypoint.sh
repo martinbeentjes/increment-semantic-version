@@ -17,7 +17,7 @@ main() {
     use_commit="no"
   else 
     use_commit="$(echo $3 | tr '[A-Z]' '[a-z]')"
-    if [[ $use_commit != "yes" ]]; then
+    if [[ "$use_commit" != "yes" ]]; then
       use_commit="no"
     fi
   fi
