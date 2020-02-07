@@ -42,13 +42,13 @@ main() {
   prev_version="$1"; release_type="$2";
 
   if [[ "$prev_version" == "" ]]; then
-    echo "could not read previous version"; exit 1
+    echo "Could not read previous version"; exit 1
   fi
 
   possible_release_types="major minor patch prerelease"
 
   if [[ ! ${possible_release_types[*]} =~ ${release_type} ]]; then
-    echo "valid argument: [ ${possible_release_types[*]} ]"; exit 1
+    echo "Invalid argument for release_type! Valid arguments are: [ ${possible_release_types[*]} ]"; exit 1
   fi
 
   major=0; minor=0; patch=0; pre=""; preversion=0
@@ -66,14 +66,8 @@ main() {
     exit 1
   fi
 
-  # 0.1.0 prerelease should result in 0.2.0-alpha-1 (or patch? what... FUCK)
   if [[ "$release_type" == "prerelease" ]]; then
-    
-    
-    # pre_backup=pre
     bump_version
-
-    # pre=pre_backup
     configure_postfix 
   else
     bump_version
@@ -81,7 +75,6 @@ main() {
 
   next_version="${major}.${minor}.${patch}${pre}"
   echo "create $release_type-release version: $prev_version -> $next_version"
-
   echo ::set-output name=next-version::"$next_version"
 }
 
