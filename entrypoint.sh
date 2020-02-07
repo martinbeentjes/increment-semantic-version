@@ -27,7 +27,10 @@ bump_version() {
     "patch")
       ((++patch)); pre="";;
     "prerelease")
-
+      if [[  -z "$pre" ]]; then # if pre is not empty
+         ((++minor)); # increment
+         patch=0 # set patch to zero
+      fi;;
   esac
 }
 
@@ -63,7 +66,14 @@ main() {
     exit 1
   fi
 
+  # 0.1.0 prerelease should result in 0.2.0-alpha-1 (or patch? what... FUCK)
   if [[ "$release_type" == "prerelease" ]]; then
+    
+    
+    # pre_backup=pre
+    bump_version
+
+    # pre=pre_backup
     configure_postfix 
   else
     bump_version
