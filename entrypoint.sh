@@ -9,13 +9,6 @@
 #     pipeline exit successfully (-o pipefail)
 set -euo pipefail
 
-# This scripts bumps version with major, minor or patch. If set to true the version will be postfixed with an postfix
-# 1.0.0-alpha-1
-
-
-
-# major.minor.patch-postfix-preversion
-
 configure_postfix() {
   if [[ ! -z "$preversion" ]]; then
     ((++preversion))
@@ -75,7 +68,7 @@ main() {
   else
     bump_version
   fi
-  
+
   next_version="${major}.${minor}.${patch}${pre}"
   echo "create $release_type-release version: $prev_version -> $next_version"
 
