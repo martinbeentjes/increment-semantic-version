@@ -10,8 +10,7 @@
 set -euo pipefail
 
 configure_postfix() {  
-  preversion="${GITHUB_SHA::8}"
-  pre="-alpha-$preversion"
+  pre="-alpha-${GITHUB_SHA::8}"
 }
 
 bump_version() {
