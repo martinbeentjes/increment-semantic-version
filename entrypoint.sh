@@ -9,12 +9,8 @@
 #     pipeline exit successfully (-o pipefail)
 set -euo pipefail
 
-configure_postfix() {
-  if [[ ! -z "$preversion" ]]; then
-    ((++preversion))
-  else 
-    preversion=1
-  fi 
+configure_postfix() {  
+  preversion="${GITHUB_SHA::8}"
   pre="-alpha-$preversion"
 }
 
