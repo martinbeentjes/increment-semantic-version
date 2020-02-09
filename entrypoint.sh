@@ -9,7 +9,7 @@
 #     pipeline exit successfully (-o pipefail)
 set -euo pipefail
 
-configure_postfix() {  
+configure_pre_postfix() {  
   pre="-alpha-${GITHUB_SHA::8}"
 }
 
@@ -21,26 +21,20 @@ bump_version() {
       ((++minor)); patch=0; pre="";;
     "patch")
       ((++patch)); pre="";;
-    "prerelease")
-      if [[  -z "$pre" ]]; then # if pre is not empty
-         ((++minor)); # increment
-         patch=0 # set patch to zero
-      fi;;
   esac
 }
 
 main() {
-  if [[ "$#" -ne 2 ]]; then
-    echo "Must have two arguments: previous_version release_type"; exit 1
+  if [[ "$#" -ge 2 ]]; then
+    echo "Must have two or three arguments: previous_version release_type [alpha_build, if alpha is requested]"; exit 1
   fi
-
-  prev_version="$1"; release_type="$2";
+  prev_version="$1"; release_type="$2"; 
 
   if [[ "$prev_version" == "" ]]; then
     echo "Could not read previous version"; exit 1
   fi
 
-  possible_release_types="major minor patch prerelease"
+  possible_release_types="major minor patch"
 
   if [[ ! ${possible_release_types[*]} =~ ${release_type} ]]; then
     echo "Invalid argument for release_type! Valid arguments are: [ ${possible_release_types[*]} ]"; exit 1
@@ -61,11 +55,9 @@ main() {
     exit 1
   fi
 
-  if [[ "$release_type" == "prerelease" ]]; then
-    bump_version
-    configure_postfix 
-  else
-    bump_version
+  bump_version
+  if [[ "$#" -eq 3]]; then
+    configure_pre_postfix
   fi
 
   next_version="${major}.${minor}.${patch}${pre}"
