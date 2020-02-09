@@ -11,6 +11,9 @@ inputs:
   version-fragment:
     description: 'The versions fragment you want to increment. possible options are [ major | minor | patch | prerelease ]'
     required: true
+  execute-alpha-build:
+    description: 'Execute an alpha build?'
+    required: false
 outputs:
   next-version:
     description: 'The incremented version'
@@ -20,3 +23,4 @@ runs:
   args:
     - ${{ inputs.current-version }}
     - ${{ inputs.version-fragment }}
+    - ${{ inputs.execute-alpha-build }}

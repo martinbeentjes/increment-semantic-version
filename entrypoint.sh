@@ -25,7 +25,8 @@ bump_version() {
 }
 
 main() {
-  if [[ "$#" -ge 2 ]]; then
+  echo "amount of args is $#"
+  if [[ "$#" -lt 3 ]]; then
     echo "Must have two or three arguments: previous_version release_type [alpha_build, if alpha is requested]"; exit 1
   fi
   prev_version="$1"; release_type="$2"; 
@@ -56,7 +57,7 @@ main() {
   fi
 
   bump_version
-  if [[ "$#" -eq 3]]; then
+  if [[ $# -eq 3 ]]; then
     configure_pre_postfix
   fi
 
